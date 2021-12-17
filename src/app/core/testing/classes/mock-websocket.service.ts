@@ -4,7 +4,7 @@ import { when } from 'jest-when';
 import { of } from 'rxjs';
 import { ApiDirectory, ApiMethod } from 'app/interfaces/api-directory.interface';
 import { Job } from 'app/interfaces/job.interface';
-import { WebSocketService } from 'app/services';
+import { WebSocketServiceBase } from 'app/services';
 
 /**
  * MockWebsocketService can be used to update websocket mocks on the fly.
@@ -19,7 +19,7 @@ import { WebSocketService } from 'app/services';
  * ```
  */
 @Injectable()
-export class MockWebsocketService extends WebSocketService {
+export class MockWebsocketService extends WebSocketServiceBase {
   private jobIdCounter = 1;
 
   constructor(
@@ -63,5 +63,9 @@ export class MockWebsocketService extends WebSocketService {
 
   onclose(): void {
     // Noop to avoid calling redirect.
+  }
+
+  send(payload: unknown): void {
+    throw Error(`Unmocked websocket send with ${JSON.stringify(payload)}`);
   }
 }

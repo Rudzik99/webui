@@ -1,4 +1,5 @@
 export * from './ws.service';
+export * from './ws.service.base';
 export * from './system-general.service';
 export * from './network.service';
 export * from './vm.service';
