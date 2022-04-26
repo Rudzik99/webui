@@ -21,6 +21,11 @@
   z-index: 2;
 }
 
+.grip {
+  position: absolute;
+  top: 26px;
+}
+
 .widget mat-toolbar-row.view-overview .primary-nav {
   color: #efefef;
 }
@@ -28,6 +33,10 @@
 .widget .left button.mat-button {
   background-color: var(--primary) !important;
   color: var(--primary-txt) !important;
+}
+
+.widget .left button.mat-button:focus-visible {
+  outline-width: 0;
 }
 
 .view-overview .mat-card-title-text {
@@ -232,10 +241,6 @@ img.clickable,
 
 .platform-logo-wrapper.core .mat-icon {
   height: 2.25rem;
-}
-
-.platform-logo-wrapper .mat-icon.retro {
-  height: 2.4rem;
 }
 
 .product-image.rackmount {

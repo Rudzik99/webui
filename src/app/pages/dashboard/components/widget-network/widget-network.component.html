@@ -2,7 +2,8 @@
   <div class="card-container  front">
     <mat-card class="front overflow-hidden" fxLayout="row" fxLayoutWrap fxLayoutAlign="space-between stretch">
       <mat-card-content #carouselparent>
-        <mat-toolbar-row>
+        <mat-toolbar-row [class.drag-handle]="showReorderHandle">
+          <ng-content [select]="[cdkDragHandle]"></ng-content>
 
           <!-- Mobile Only: Exit Widget -->
           <button
@@ -14,7 +15,10 @@
             <mat-icon (click)="goBack()" class="back-arrow">chevron_left</mat-icon>
           </button>
           <h3 class="mat-card-title-text">
-            <div class="card-title-text">{{title | translate}}</div>
+            <div class="card-title-text" [class.drag-handle]="showReorderHandle">
+              <span class="grip" *ngIf="showReorderHandle"></span>
+              {{title | translate}}
+            </div>
           </h3>
 
           <div class="controls">
@@ -47,21 +51,24 @@
                     <div class="info-body" fxLayout="row" fxFlex fxLayoutAlign="space-between center">
                       <ul>
                         <li fxLayout="row" fxLayoutAlign="start center">
-                          <span class="icon up" *ngIf="nic.state.link_state === LinkState.Up">
-                            <mat-icon role="img" fontSet="mdi-set" fontIcon="mdi-check-circle" [matTooltip]="nicInfoMap[nic.state.name]?.state"></mat-icon>
+                          <span class="icon up" *ngIf="getLinkState(nic) === LinkState.Up">
+                            <mat-icon role="img" fontSet="mdi-set" fontIcon="mdi-check-circle" [matTooltip]="getLinkStateLabel(nic)"></mat-icon>
                           </span>
-                          <span class="icon down" *ngIf="nic.state.link_state !== LinkState.Up">
-                            <mat-icon role="img" fontSet="mdi-set" fontIcon="mdi-close-circle" [matTooltip]="nicInfoMap[nic.state.name]?.state"></mat-icon>
+                          <span class="icon down" *ngIf="getLinkState(nic) !== LinkState.Up">
+                            <mat-icon role="img" fontSet="mdi-set" fontIcon="mdi-close-circle" [matTooltip]="getLinkStateLabel(nic)"></mat-icon>
                           </span>
-                          <span>{{ nicInfoMap[nic.state.name]?.state }}</span>
+                          <span>{{ getLinkStateLabel(nic) }}</span>
                         </li>
-                        <li fxLayout="row" fxLayoutAlign="start center"  class="line-state">
-                          <span class="icon state"><mat-icon [id]="nic.state.name" class="state-info-icon" svgIcon="network-upload-download" [matTooltip]="showInOutInfo(nic)"></mat-icon></span>
-                          <ul *ngIf="nic.state.link_state === LinkState.Up">
+                        <li fxLayout="row" fxLayoutAlign="start center" class="line-state">
+                          <span class="icon state">
+                            <mat-icon [id]="nic.state.name" class="state-info-icon" svgIcon="network-upload-download" *ngIf="getLinkState(nic) === LinkState.Up" [matTooltip]="showInOutInfo(nic)"></mat-icon>
+                            <mat-icon class="state-info-icon" svgIcon="network-upload-download-disabled" *ngIf="getLinkState(nic) !== LinkState.Up"></mat-icon>
+                          </span>
+                          <ul *ngIf="getLinkState(nic) === LinkState.Up">
                             <li><span class="label">{{ 'In' | translate }}:</span> {{ nicInfoMap[nic.state.name]?.in }}</li>
                             <li><span class="label">{{ 'Out' | translate }}:</span>{{ nicInfoMap[nic.state.name]?.out }}</li>
                           </ul>
-                          <span *ngIf="nic.state.link_state !== LinkState.Up">{{ 'No Traffic' | translate }}</span>
+                          <span *ngIf="getLinkState(nic) !== LinkState.Up">{{ 'No Traffic' | translate }}</span>
                         </li>
                         <li fxLayout="row" fxLayoutAlign="start center" *ngIf="availableNics.length > 1">
                           <span class="icon address"><mat-icon [matTooltip]="getIpAddressTooltip(nic)">settings_ethernet</mat-icon></span>

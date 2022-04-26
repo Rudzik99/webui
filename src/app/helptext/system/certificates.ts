@@ -1,6 +1,6 @@
 import { Validators } from '@angular/forms';
 import { marker as T } from '@biesbjerg/ngx-translate-extract-marker';
-import { matchOtherValidator } from 'app/pages/common/entity/entity-form/validators/password-validation/password-validation';
+import { matchOtherValidator } from 'app/modules/entity/entity-form/validators/password-validation/password-validation';
 
 export const helptextSystemCertificates = {
   add: {
@@ -9,11 +9,7 @@ export const helptextSystemCertificates = {
     fieldset_basic: T('Identifier and Type'),
     fieldset_type: T('Certificate Options'),
     fieldset_certificate: T('Certificate Subject'),
-    fieldset_basic_constraints: T('Basic Constraints'),
     fieldset_extra: T('Extra Constraints'),
-    fieldset_authority_key_identifier: T('Authority Key Identifier'),
-    fieldset_extended_key_usage: T('Extended Key Usage'),
-    fieldset_key_usage: T('Key Usage'),
 
     name: {
       placeholder: T('Name'),
@@ -57,6 +53,14 @@ matches your certificate usage scenario.'),
       tooltip: T(
         'Check this box if importing a certificate for which a CSR exists on this system',
       ),
+    },
+
+    csrlist: {
+      placeholder: T('Certificate Signing Request'),
+      tooltip: T(
+        'Select an existing CSR.',
+      ),
+      validation: [Validators.required],
     },
 
     signedby: {
@@ -356,33 +360,12 @@ certificate still approved.'),
   },
 
   edit: {
-    title: T('Edit Certificate'),
-    titleCSR: T('Edit CSR'),
-    fieldset_certificate: T('Certificate'),
     name: {
-      placeholder: T('Identifier'),
       tooltip: T(
         'Enter an alphanumeric name for the certificate.\
  Underscore (_), and dash (-) characters are allowed.',
       ),
-      validation: [Validators.required],
     },
-
-    certificate: {
-      placeholder: T('Certificate'),
-    },
-
-    privatekey: {
-      placeholder: T('Private Key'),
-    },
-
-    csr: {
-      placeholder: T('Signing Request'),
-    },
-
-    subject: T('Subject'),
-
-    signCSR: T('Sign CSR'),
   },
 
   list: {
